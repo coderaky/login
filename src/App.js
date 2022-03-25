@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+export const usePasswordValidation = ({
+  
+username = "",
+Password = "",
+requiredLength = 8,
+  
+}) => {
+const [validLength, setValidLength] = useState(null);
+const [hasNumber, setHasNumber] = useState(null);
+const [specialChar, setSpecialChar] = useState(null);
+const [match, setMatch] = useState(null);
+  
+useEffect(() => {
+  
+setValidLength(username.length >= requiredLength ? true : false);
+setValidLength(Password.length ===12 ? true : false);
+setSpecialChar(/[-._!"`'#%&,:;<>=@{}~$()*+/\\?[\]^|]+/.test(username));
+setMatch(username && username === Password.substring(0, username.length));
+setHasNumber(/^[0-9]*$/.test(Password));
+  
+}, [username, Password, requiredLength]);
+  
+return [validLength, hasNumber, match, specialChar];
+};
